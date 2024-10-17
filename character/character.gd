@@ -3,11 +3,12 @@ class_name BaseCharacter
 
 @onready var _texture:= $Texture as AnimatedSprite2D
 @export_category("Variables")
-@export var _direction:int
+var _direction:int
 @export var _speed = 150.0
 @export var _boost := 2.0
-@export var _jump:bool
+var _jump:bool
 @export var _jump_velocity:= -400
+var _extra_jump:int
 
 func _physics_process(_delta: float) -> void:
 	
@@ -20,7 +21,7 @@ func _physics_process(_delta: float) -> void:
 
 func _set_state() ->void:
 	var state = "idle"
-	if Input.is_action_pressed("ui_accept"):
+	if Input.is_action_pressed("jump") and !is_on_floor():
 		_jump = true
 		state = "jump"
 	else:
@@ -33,24 +34,25 @@ func _set_state() ->void:
 		_texture.play(state)
 
 func _vertical_moviment(_delta:float) -> void:
-	
 	if is_on_floor():
-		pass
+		_extra_jump = 1
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * _delta
 	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		if Input.is_key_pressed(KEY_A):
-				velocity.y = _jump_velocity * 1.2
+	if Input.is_action_just_pressed("jump") and _extra_jump >= 0:
+		if Input.is_action_pressed("boost"):
+				velocity.y = _jump_velocity * 1.1
 				velocity.x = _direction * _speed * _boost
 		else:
 			velocity.y = _jump_velocity
+		_extra_jump -= 1
+			
 func _horizontal_moviment(_delta:float) -> void:
-	_direction = Input.get_axis("ui_left", "ui_right")
+	_direction = Input.get_axis("move_left", "move_right")
 	if _direction:
 		_texture.scale.x = _direction
-		if Input.is_key_pressed(KEY_A) and is_on_floor():
+		if Input.is_action_pressed("boost") and is_on_floor():
 			velocity.x = _direction * _speed * _boost
 		else:
 			velocity.x = _direction * _speed
