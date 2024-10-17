@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bj0wvn5ostyd2"]
+[gd_scene load_steps=18 format=3 uid="uid://bj0wvn5ostyd2"]
 
 [ext_resource type="Texture2D" uid="uid://c5qhrk0rbvm7f" path="res://character/without_sword/idle/1.png" id="1_0jmfj"]
 [ext_resource type="Script" path="res://character/character.gd" id="1_armaa"]
@@ -9,6 +9,12 @@
 [ext_resource type="Texture2D" uid="uid://djqk62p32h2n5" path="res://character/without_sword/jump/1.png" id="7_gmhy4"]
 [ext_resource type="Texture2D" uid="uid://cela1p8dxk8rp" path="res://character/without_sword/jump/2.png" id="8_b04y5"]
 [ext_resource type="Texture2D" uid="uid://vicpcb000l40" path="res://character/without_sword/jump/3.png" id="9_ogo40"]
+[ext_resource type="Texture2D" uid="uid://4qt4ydf0hkc8" path="res://character/without_sword/run/1.png" id="10_1xr5s"]
+[ext_resource type="Texture2D" uid="uid://do0vwavrne170" path="res://character/without_sword/run/2.png" id="11_bjras"]
+[ext_resource type="Texture2D" uid="uid://bbs6fkpkl4oj4" path="res://character/without_sword/run/3.png" id="12_v8mav"]
+[ext_resource type="Texture2D" uid="uid://gnxihojncyyw" path="res://character/without_sword/run/4.png" id="13_vsrft"]
+[ext_resource type="Texture2D" uid="uid://bf7y8eqoaaso3" path="res://character/without_sword/run/5.png" id="14_7bua8"]
+[ext_resource type="Texture2D" uid="uid://m2sh4holksa2" path="res://character/without_sword/run/6.png" id="15_16vua"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vvw5b"]
 animations = [{
@@ -45,6 +51,29 @@ animations = [{
 "loop": true,
 "name": &"jump",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_1xr5s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_bjras")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_v8mav")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_vsrft")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_7bua8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_16vua")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pl4gk"]
@@ -56,7 +85,7 @@ script = ExtResource("1_armaa")
 
 [node name="Texture" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vvw5b")
-animation = &"jump"
+animation = &"run"
 autoplay = "idle"
 
 [node name="Collision" type="CollisionShape2D" parent="."]
