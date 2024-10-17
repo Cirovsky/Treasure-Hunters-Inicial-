@@ -11,7 +11,6 @@ func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-
 	# Handle jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		
@@ -31,8 +30,12 @@ func _physics_process(delta: float) -> void:
 func _set_state() ->void:
 	var state = "idle"
 	if Input.is_key_pressed(KEY_SPACE):
+		_jump = true
 		state = "jump"
+	if not _jump and not is_on_floor():
+		state = "fall"
 	elif _direction !=0:
+		_jump = false
 		state = "run"
 	if _texture.name != state:
 		_texture.play(state)

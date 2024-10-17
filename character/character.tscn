@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://bj0wvn5ostyd2"]
+[gd_scene load_steps=19 format=3 uid="uid://bj0wvn5ostyd2"]
 
 [ext_resource type="Texture2D" uid="uid://c5qhrk0rbvm7f" path="res://character/without_sword/idle/1.png" id="1_0jmfj"]
 [ext_resource type="Script" path="res://character/character.gd" id="1_armaa"]
+[ext_resource type="Texture2D" uid="uid://bgrlskmqfawqt" path="res://character/without_sword/fall/1.png" id="2_xhcws"]
 [ext_resource type="Texture2D" uid="uid://40ivig0u8ovc" path="res://character/without_sword/idle/2.png" id="2_yolw0"]
 [ext_resource type="Texture2D" uid="uid://mvwhq46616fx" path="res://character/without_sword/idle/3.png" id="3_vmcch"]
 [ext_resource type="Texture2D" uid="uid://cxcw2oxd1w0lx" path="res://character/without_sword/idle/4.png" id="4_npvoq"]
@@ -18,6 +19,14 @@
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vvw5b"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_xhcws")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1_0jmfj")
@@ -85,7 +94,7 @@ script = ExtResource("1_armaa")
 
 [node name="Texture" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vvw5b")
-animation = &"run"
+animation = &"fall"
 autoplay = "idle"
 
 [node name="Collision" type="CollisionShape2D" parent="."]
