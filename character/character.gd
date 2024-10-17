@@ -32,11 +32,12 @@ func _set_state() ->void:
 	if Input.is_key_pressed(KEY_SPACE):
 		_jump = true
 		state = "jump"
-	if not _jump and not is_on_floor():
-		state = "fall"
-	elif _direction !=0:
+	else:
 		_jump = false
-		state = "run"
+		if not _jump and not is_on_floor():
+			state = "fall"
+		elif _direction !=0:
+			state = "run"
 	if _texture.name != state:
 		_texture.play(state)
 	
