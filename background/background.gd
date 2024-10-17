@@ -14,5 +14,5 @@ func _physics_process(_delta: float) -> void:
 	var i: int = 0
 	for cloud in _clouds:
 		cloud.motion_offset.x -= _speed_values[i] * _delta
-		i +=1
+		i += 1
 	pass
