@@ -1,0 +1,9 @@
+extends Node2D
+
+@onready var player := $Character as CharacterBody2D
+@onready var camera := $Camera2D as Camera2D
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	print(camera)
+	player.follow_camera(camera)
+# Called every frame. 'delta' is the elapsed time since the previous frame.

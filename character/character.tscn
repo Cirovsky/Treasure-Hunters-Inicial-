@@ -91,6 +91,7 @@ size = Vector2(17, 21)
 [node name="Character" type="CharacterBody2D"]
 collision_mask = 2
 script = ExtResource("1_armaa")
+_speed = 100.0
 
 [node name="Texture" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vvw5b")
@@ -100,3 +101,5 @@ autoplay = "idle"
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, -0.5)
 shape = SubResource("RectangleShape2D_pl4gk")
+
+[node name="Remote" type="RemoteTransform2D" parent="."]

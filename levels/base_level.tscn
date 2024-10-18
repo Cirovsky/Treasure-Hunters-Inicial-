@@ -1,11 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://bx8qw5ldqh1q"]
+[gd_scene load_steps=5 format=3 uid="uid://bx8qw5ldqh1q"]
 
+[ext_resource type="Script" path="res://levels/base_level.gd" id="1_h602k"]
 [ext_resource type="PackedScene" uid="uid://3ce1xuu0yql4" path="res://terrain/terrain.tscn" id="1_mh5bg"]
 [ext_resource type="PackedScene" uid="uid://1b7gt0oj3gcu" path="res://background/background.tscn" id="2_e7wbj"]
+[ext_resource type="PackedScene" uid="uid://d35trr4m5r7o0" path="res://character/camera_2d.tscn" id="4_mnlem"]
 
 [node name="BaseLevel" type="Node2D"]
+script = ExtResource("1_h602k")
 
 [node name="Terrain" parent="." instance=ExtResource("1_mh5bg")]
 position = Vector2(-613.328, 656.054)
 
 [node name="Background" parent="." instance=ExtResource("2_e7wbj")]
+
+[node name="Camera2D" parent="." instance=ExtResource("4_mnlem")]
