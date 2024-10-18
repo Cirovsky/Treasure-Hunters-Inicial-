@@ -111,6 +111,8 @@ _speed = 100.0
 sprite_frames = SubResource("SpriteFrames_vvw5b")
 animation = &"land"
 autoplay = "idle"
+frame = 1
+frame_progress = 1.0
 script = ExtResource("19_74mvt")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
@@ -118,3 +120,5 @@ position = Vector2(-0.5, -0.5)
 shape = SubResource("RectangleShape2D_pl4gk")
 
 [node name="Remote" type="RemoteTransform2D" parent="."]
+
+[connection signal="animation_finished" from="Texture" to="Texture" method="_on_animation_finished"]

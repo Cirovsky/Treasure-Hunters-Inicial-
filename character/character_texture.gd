@@ -1,8 +1,12 @@
 extends AnimatedSprite2D
 class_name  CharacterTexture
+
+var _is_on_action:= false
 # Called when the node enters the scene tree for the first time.
 func animate(_velocity: Vector2) -> void:
 	verify_direction(_velocity.x)
+	if _is_on_action:
+		return
 	if not _velocity:
 		play("idle")
 		return
@@ -15,8 +19,16 @@ func animate(_velocity: Vector2) -> void:
 	if _velocity.x:
 		play("run")
 		return
+		
 func verify_direction(_direction: float) -> void:
-		if _direction > 0:
-			flip_h = false
-		if _direction < 0:
-			flip_h = true
+	if _direction > 0:
+		flip_h = false
+	if _direction < 0:
+		flip_h = true
+		
+func action_animation(_action_name: String) -> void:
+		_is_on_action = true
+		play(_action_name)
+
+func _on_animation_finished() -> void:
+	_is_on_action = false
