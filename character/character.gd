@@ -3,9 +3,9 @@ class_name BaseCharacter
 
 @onready var remote_transform:= $Remote as RemoteTransform2D
 @export_category("Variables")
-var _direction:int
+var _direction:float
 @export var _speed = 150.0
-@export var _boost := 2.0
+@export var _boost := 2
 var _jump:bool
 @export var _jump_velocity:= -300
 var _extra_jump:int
@@ -14,13 +14,14 @@ var _extra_jump:int
 @onready var _character_texture:= $Texture as CharacterTexture
 
 func _physics_process(_delta: float) -> void:
-	
+	_direction = Input.get_axis("move_left", "move_right")
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	_vertical_moviment(_delta)
 	_horizontal_moviment()
 	move_and_slide()
-	_character_texture.animate(velocity, _jump, is_on_floor(), _direction)
+	_character_texture.animate(velocity)
+	_character_texture.verify_direction(_direction)
 
 func _vertical_moviment(_delta:float) -> void:
 	if is_on_floor():
@@ -43,9 +44,7 @@ func _vertical_moviment(_delta:float) -> void:
 		_extra_jump -= 2
 			
 func _horizontal_moviment() -> void:
-	_direction = Input.get_axis("move_left", "move_right")
 	if _direction:
-		_character_texture.scale.x = _direction
 		if Input.is_action_pressed("boost"):
 			velocity.x = _direction * _speed * _boost
 		else:
