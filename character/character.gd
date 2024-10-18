@@ -2,7 +2,6 @@ extends CharacterBody2D
 class_name BaseCharacter
 
 @onready var remote_transform:= $Remote as RemoteTransform2D
-@onready var _texture:= $Texture as AnimatedSprite2D
 @export_category("Variables")
 var _direction:int
 @export var _speed = 150.0
@@ -11,28 +10,17 @@ var _jump:bool
 @export var _jump_velocity:= -300
 var _extra_jump:int
 
+@export_category("Objects")
+@onready var _character_texture:= $Texture as CharacterTexture
+
 func _physics_process(_delta: float) -> void:
 	
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	_horizontal_moviment(_delta)
 	_vertical_moviment(_delta)
-	_set_state()
+	_horizontal_moviment()
 	move_and_slide()
-
-func _set_state() ->void:
-	var state = "idle"
-	if Input.is_action_pressed("jump") and !is_on_floor():
-		_jump = true
-		state = "jump"
-	else:
-		_jump = false
-		if not _jump and not is_on_floor():
-			state = "fall"
-		elif _direction !=0:
-			state = "run"
-	if _texture.name != state:
-		_texture.play(state)
+	_character_texture.animate(velocity, _jump, is_on_floor(), _direction)
 
 func _vertical_moviment(_delta:float) -> void:
 	if is_on_floor():
@@ -54,10 +42,10 @@ func _vertical_moviment(_delta:float) -> void:
 			velocity.y = _jump_velocity
 		_extra_jump -= 2
 			
-func _horizontal_moviment(_delta:float) -> void:
+func _horizontal_moviment() -> void:
 	_direction = Input.get_axis("move_left", "move_right")
 	if _direction:
-		_texture.scale.x = _direction
+		_character_texture.scale.x = _direction
 		if Input.is_action_pressed("boost"):
 			velocity.x = _direction * _speed * _boost
 		else:
