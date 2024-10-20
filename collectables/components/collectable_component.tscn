@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://6s45cj6f6c87"]
+
+[ext_resource type="Script" path="res://collectables/components/collectable_component.gd" id="1_t4kyc"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e2kbb"]
+
+[node name="CollectableComponent" type="Area2D"]
+script = ExtResource("1_t4kyc")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_e2kbb")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

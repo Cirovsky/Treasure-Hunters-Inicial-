@@ -8,6 +8,7 @@ class_name BaseCharacter
 @export var _jump_velocity:= -300
 var _extra_jump:int
 var _on_floor: = true
+var with_sword = false
 
 @export_category("Objects")
 @onready var _character_texture:= $Texture as CharacterTexture
@@ -23,8 +24,8 @@ func _physics_process(_delta: float) -> void:
 func _vertical_moviment(_delta:float) -> void:
 	if is_on_floor():
 		if _on_floor == false:
-			print("encostou no chão")
 			_character_texture.action_animation("land")
+			set_physics_process(false)
 			_on_floor = true
 		_extra_jump = 1
 	# Add the gravity.
@@ -54,6 +55,10 @@ func _horizontal_moviment() -> void:
 			velocity.x = _direction * _speed
 	else:
 		velocity.x = move_toward(velocity.x, 0, _speed)
+		
 func follow_camera(camera):
 	var camera_path = camera.get_path()
 	remote_transform.remote_path = camera_path
+	
+func has_a_sword(sword: bool) -> void:
+	_character_texture.is_with_sword(sword)
