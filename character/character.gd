@@ -12,7 +12,7 @@ var _extra_jump:int
 var _on_floor: = true
 var _has_sword: = false
 var _attack_index: int = 1
-var _air_attack_index: int = 1
+var _air_attack_count: int = 1
 
 func _physics_process(_delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
@@ -28,6 +28,7 @@ func _vertical_moviment(_delta:float) -> void:
 	if is_on_floor():
 		if _on_floor == false:
 			#configurar efeito da queda
+			_air_attack_count = 2
 			global.spam_effect(
 				"res://visual_effects/dust_particles/fall/fall_effect.tscn", 
 				Vector2(0, 2),
@@ -78,20 +79,20 @@ func _attack_handler() -> void:
 	if not _has_sword:
 		return
 	if Input.is_action_just_pressed("attack"):
-		if not _on_floor:
-			_character_texture.action_animation("air_attack_" + str(_air_attack_index))
-			set_physics_process(false)
-			_attack_combo.start()
-			_air_attack_index += 1
-			if _air_attack_index > 2:
-				_air_attack_index = 1
-		else:
-			_character_texture.action_animation("attack_" + str(_attack_index))
-			set_physics_process(false)
-			_attack_combo.start()
-			_attack_index += 1
-			if _attack_index > 3:
-				_attack_index = 1
+		if not _on_floor and _air_attack_count > 0:
+			_attack_animation_handler("air_attack_",2, true)
+		elif _on_floor:
+			_attack_animation_handler("attack_",3)
+func _attack_animation_handler(prefix, index_limit: int, on_air: bool = false) -> void:
+	_character_texture.action_animation(prefix + str(_attack_index))
+	_attack_index += 1
+	if on_air:
+		_air_attack_count -= 1
+	if _attack_index > index_limit:
+		_attack_index = 1
+	set_physics_process(false)
+	_attack_combo.start()	
+	return
 		
 func take_a_sword() -> void:
 	if _has_sword:
