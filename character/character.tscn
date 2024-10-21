@@ -128,7 +128,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("2_xhcws")
 }],
-"loop": true,
+"loop": false,
 "name": &"fall",
 "speed": 10.0
 }, {
@@ -287,7 +287,7 @@ _speed = 100.0
 
 [node name="Texture" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_character")]
 sprite_frames = SubResource("SpriteFrames_vvw5b")
-animation = &"attack_1_with_sword"
+animation = &"run"
 autoplay = "idle"
 script = ExtResource("19_74mvt")
 _character = NodePath("..")
@@ -302,4 +302,5 @@ shape = SubResource("RectangleShape2D_pl4gk")
 one_shot = true
 
 [connection signal="animation_finished" from="Texture" to="Texture" method="_on_animation_finished"]
+[connection signal="frame_changed" from="Texture" to="Texture" method="_on_frame_changed"]
 [connection signal="timeout" from="AttackCombo" to="." method="_on_attack_combo_timeout"]

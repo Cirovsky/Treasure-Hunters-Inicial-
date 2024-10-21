@@ -27,6 +27,13 @@ func _physics_process(_delta: float) -> void:
 func _vertical_moviment(_delta:float) -> void:
 	if is_on_floor():
 		if _on_floor == false:
+			#configurar efeito da queda
+			global.spam_effect(
+				"res://visual_effects/dust_particles/fall/fall_effect.tscn", 
+				Vector2(0, 2),
+				global_position,
+				false
+				)
 			_character_texture.action_animation("land")
 			set_physics_process(false)
 			_on_floor = true
@@ -37,6 +44,13 @@ func _vertical_moviment(_delta:float) -> void:
 		velocity += get_gravity() * _delta
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and _extra_jump >= 0 and is_on_floor():
+		global.spam_effect(
+			"res://visual_effects/dust_particles/jump/jump_effect.tscn",
+			Vector2(0, 2),
+			global_position,
+			_character_texture.flip_h
+		)
+		
 		if Input.is_action_pressed("boost"):
 				velocity.y = _jump_velocity * 1.1
 		else:
@@ -61,7 +75,6 @@ func _horizontal_moviment() -> void:
 		
 	
 func _attack_handler() -> void:
-	print(_attack_index)
 	if not _has_sword:
 		return
 	if Input.is_action_just_pressed("attack"):

@@ -36,8 +36,20 @@ func action_animation(_action_name: String) -> void:
 func _on_animation_finished() -> void:
 	_is_on_action = false
 	_character.set_physics_process(true)
+		
 func is_with_sword(sword:bool) -> void:
 	if sword:
 		_suffix = "_with_sword"
 	else:
 		_suffix = ""
+
+
+func _on_frame_changed() -> void:
+	if animation == "run" or animation == "run_with_sword":
+		if frame == 1 or frame == 4:
+			global.spam_effect(
+				"res://visual_effects/dust_particles/run/run_effect.tscn",
+				Vector2(0, 2),
+				global_position,
+				flip_h
+			)
