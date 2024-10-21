@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://bj0wvn5ostyd2"]
+[gd_scene load_steps=57 format=3 uid="uid://bj0wvn5ostyd2"]
 
 [ext_resource type="Texture2D" uid="uid://c5qhrk0rbvm7f" path="res://character/without_sword/idle/1.png" id="1_0jmfj"]
 [ext_resource type="Script" path="res://character/character.gd" id="1_armaa"]
@@ -51,6 +51,9 @@
 [ext_resource type="Texture2D" uid="uid://behjwwas348b2" path="res://character/with_sword/run/4.png" id="33_4nev7"]
 [ext_resource type="Texture2D" uid="uid://bk7jvpwlnd0sm" path="res://character/with_sword/run/5.png" id="34_d174i"]
 [ext_resource type="Texture2D" uid="uid://c0iablljb7ucw" path="res://character/with_sword/run/6.png" id="35_vhsbn"]
+[ext_resource type="Texture2D" uid="uid://bcfpxa8ry47xe" path="res://character/with_sword/throw_sword/1.png" id="51_kn3fp"]
+[ext_resource type="Texture2D" uid="uid://dmvum0lyssb06" path="res://character/with_sword/throw_sword/2.png" id="52_x3y66"]
+[ext_resource type="Texture2D" uid="uid://bev0dhx6nack3" path="res://character/with_sword/throw_sword/3.png" id="53_cp48a"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vvw5b"]
 animations = [{
@@ -275,6 +278,20 @@ animations = [{
 "loop": true,
 "name": &"run_with_sword",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("51_kn3fp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("52_x3y66")
+}, {
+"duration": 1.0,
+"texture": ExtResource("53_cp48a")
+}],
+"loop": false,
+"name": &"throw_sword",
+"speed": 10.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pl4gk"]
@@ -287,7 +304,7 @@ _speed = 100.0
 
 [node name="Texture" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_character")]
 sprite_frames = SubResource("SpriteFrames_vvw5b")
-animation = &"air_attack_2_with_sword"
+animation = &"throw_sword"
 autoplay = "idle"
 script = ExtResource("19_74mvt")
 _character = NodePath("..")

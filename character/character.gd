@@ -1,6 +1,12 @@
 extends CharacterBody2D
 class_name BaseCharacter
 
+const _THROWABLE_SWORD: PackedScene = preload("res://throwables/character_sword/character_sword.tscn")
+var _extra_jump:int
+var _on_floor: = true
+var _has_sword: = false
+var _attack_index: int = 1
+var _air_attack_count: int = 1
 @onready var remote_transform:= $Remote as RemoteTransform2D
 @onready var _character_texture: = $Texture as CharacterTexture
 @onready var _attack_combo: = $AttackCombo as Timer
@@ -8,11 +14,6 @@ class_name BaseCharacter
 @export var _speed = 150.0
 @export var _boost := 2
 @export var _jump_velocity:= -300
-var _extra_jump:int
-var _on_floor: = true
-var _has_sword: = false
-var _attack_index: int = 1
-var _air_attack_count: int = 1
 
 func _physics_process(_delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
@@ -78,11 +79,17 @@ func _horizontal_moviment() -> void:
 func _attack_handler() -> void:
 	if not _has_sword:
 		return
+	if Input.is_action_just_pressed("throw"):
+		_character_texture.action_animation("throw_sword")
+		update_sword_state(false)
+		set_physics_process(false)
+		return
 	if Input.is_action_just_pressed("attack"):
 		if not _on_floor and _air_attack_count > 0:
 			_attack_animation_handler("air_attack_",2, true)
 		elif _on_floor:
 			_attack_animation_handler("attack_",3)
+			
 func _attack_animation_handler(prefix, index_limit: int, on_air: bool = false) -> void:
 	_character_texture.action_animation(prefix + str(_attack_index))
 	_attack_index += 1
@@ -93,20 +100,21 @@ func _attack_animation_handler(prefix, index_limit: int, on_air: bool = false) -
 	set_physics_process(false)
 	_attack_combo.start()	
 	return
-		
-func take_a_sword() -> void:
-	if _has_sword:
-		pass
-	else:
-		_has_sword = true
-		_character_texture.is_with_sword(true)
-		
-func trow_a_sword() -> void:
-	if _has_sword:
-		_has_sword = false
-		_character_texture.is_with_sword(false)
-	else:
+
+func throw_sword(is_flipped:bool) -> void:
+	var sword: CharacterSword = _THROWABLE_SWORD.instantiate()
+	get_tree().root.call_deferred("add_child", sword)
+	sword.global_position = global_position
+	if is_flipped:
+		sword._direction = Vector2(-1, 0)
 		return
+	sword._direction = Vector2(1, 0)
+	return
+		
+func update_sword_state(state:bool) -> void:
+	_has_sword = state
+	_character_texture.is_with_sword(state)
+	return
 
 func follow_camera(camera):
 	var camera_path = camera.get_path()

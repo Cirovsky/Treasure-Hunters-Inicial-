@@ -31,7 +31,11 @@ func verify_direction(_direction: float) -> void:
 		
 func action_animation(_action_name: String) -> void:
 		_is_on_action = true
+		if _action_name == "throw_sword":
+			play(_action_name)
+			return
 		play(_action_name + _suffix)
+		return
 
 func _on_animation_finished() -> void:
 	_is_on_action = false
@@ -45,6 +49,9 @@ func is_with_sword(sword:bool) -> void:
 
 
 func _on_frame_changed() -> void:
+	if animation == "throw_sword":
+		if frame == 2:
+			_character.throw_sword(flip_h)
 	if animation == "run" or animation == "run_with_sword":
 		if frame == 1 or frame == 4:
 			global.spam_effect(

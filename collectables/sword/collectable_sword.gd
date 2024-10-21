@@ -3,4 +3,4 @@ extends CollectableComponent
 class_name  CollectableSword
 
 func _consume(body: BaseCharacter) -> void:
-	body.take_a_sword()
+	body.update_sword_state(true)
