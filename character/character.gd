@@ -2,22 +2,24 @@ extends CharacterBody2D
 class_name BaseCharacter
 
 @onready var remote_transform:= $Remote as RemoteTransform2D
+@onready var _character_texture: = $Texture as CharacterTexture
+@onready var _attack_combo: = $AttackCombo as Timer
 @export_category("Variables")
 @export var _speed = 150.0
 @export var _boost := 2
 @export var _jump_velocity:= -300
 var _extra_jump:int
 var _on_floor: = true
-var with_sword = false
-
-@export_category("Objects")
-@onready var _character_texture:= $Texture as CharacterTexture
+var _has_sword: = false
+var _attack_index: int = 1
 
 func _physics_process(_delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
+	
 	_vertical_moviment(_delta)
 	_horizontal_moviment()
+	_attack_handler()
 	move_and_slide()
 	_character_texture.animate(velocity)
 
@@ -56,9 +58,45 @@ func _horizontal_moviment() -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, _speed)
 		
+	
+func _attack_handler() -> void:
+	print(_attack_index)
+	if not _has_sword:
+		return
+	if Input.is_action_just_pressed("attack"):
+		if not _on_floor:
+			_character_texture.action_animation("air_attack_" + str(_attack_index))
+			set_physics_process(false)
+			_attack_combo.start()
+			_attack_index += 1
+			if _attack_index > 2:
+				_attack_index = 1
+		else:
+			_character_texture.action_animation("attack_" + str(_attack_index))
+			set_physics_process(false)
+			_attack_combo.start()
+			_attack_index += 1
+			if _attack_index > 3:
+				_attack_index = 1
+		
+func take_a_sword() -> void:
+	if _has_sword:
+		pass
+	else:
+		_has_sword = true
+		_character_texture.is_with_sword(true)
+		
+func trow_a_sword() -> void:
+	if _has_sword:
+		_has_sword = false
+		_character_texture.is_with_sword(false)
+	else:
+		return
+
 func follow_camera(camera):
 	var camera_path = camera.get_path()
 	remote_transform.remote_path = camera_path
-	
-func has_a_sword(sword: bool) -> void:
-	_character_texture.is_with_sword(sword)
+
+
+func _on_attack_combo_timeout() -> void:
+	_attack_index = 1
