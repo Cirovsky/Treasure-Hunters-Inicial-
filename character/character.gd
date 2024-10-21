@@ -12,6 +12,7 @@ var _extra_jump:int
 var _on_floor: = true
 var _has_sword: = false
 var _attack_index: int = 1
+var _air_attack_index: int = 1
 
 func _physics_process(_delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
@@ -65,12 +66,12 @@ func _attack_handler() -> void:
 		return
 	if Input.is_action_just_pressed("attack"):
 		if not _on_floor:
-			_character_texture.action_animation("air_attack_" + str(_attack_index))
+			_character_texture.action_animation("air_attack_" + str(_air_attack_index))
 			set_physics_process(false)
 			_attack_combo.start()
-			_attack_index += 1
-			if _attack_index > 2:
-				_attack_index = 1
+			_air_attack_index += 1
+			if _air_attack_index > 2:
+				_air_attack_index = 1
 		else:
 			_character_texture.action_animation("attack_" + str(_attack_index))
 			set_physics_process(false)
