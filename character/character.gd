@@ -42,11 +42,12 @@ func _vertical_moviment(_delta:float) -> void:
 		_extra_jump = 1
 	# Add the gravity.
 	if not is_on_floor():
+		if _on_floor:
+			_attack_index = 1
 		_on_floor = false
 		velocity += get_gravity() * _delta
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and _extra_jump >= 0 and is_on_floor():
-		_attack_index = 1
 		global.spam_effect(
 			"res://visual_effects/dust_particles/jump/jump_effect.tscn",
 			Vector2(0, 2),
