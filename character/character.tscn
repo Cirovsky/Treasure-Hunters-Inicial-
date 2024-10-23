@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://bj0wvn5ostyd2"]
+[gd_scene load_steps=58 format=3 uid="uid://bj0wvn5ostyd2"]
 
 [ext_resource type="Texture2D" uid="uid://c5qhrk0rbvm7f" path="res://character/without_sword/idle/1.png" id="1_0jmfj"]
 [ext_resource type="Script" path="res://character/character.gd" id="1_armaa"]
@@ -297,12 +297,15 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pl4gk"]
 size = Vector2(17, 21)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_gqa3b"]
+radius = 16.0
+
 [node name="Character" type="CharacterBody2D"]
 collision_mask = 2
 script = ExtResource("1_armaa")
 _speed = 100.0
 
-[node name="Texture" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_character")]
+[node name="Texture" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_character", "_attack_area_collision")]
 sprite_frames = SubResource("SpriteFrames_vvw5b")
 animation = &"attack_1_with_sword"
 autoplay = "idle"
@@ -310,6 +313,7 @@ frame = 2
 frame_progress = 1.0
 script = ExtResource("19_74mvt")
 _character = NodePath("..")
+_attack_area_collision = NodePath("../AttackArea/Collision")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, -0.5)
@@ -319,6 +323,13 @@ shape = SubResource("RectangleShape2D_pl4gk")
 
 [node name="AttackCombo" type="Timer" parent="."]
 one_shot = true
+
+[node name="AttackArea" type="Area2D" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="AttackArea"]
+position = Vector2(24, 0)
+shape = SubResource("CircleShape2D_gqa3b")
+disabled = true
 
 [connection signal="animation_finished" from="Texture" to="Texture" method="_on_animation_finished"]
 [connection signal="frame_changed" from="Texture" to="Texture" method="_on_frame_changed"]

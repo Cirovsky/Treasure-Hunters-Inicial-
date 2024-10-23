@@ -3,11 +3,16 @@ class_name  CharacterTexture
 
 @export_category("Objects")
 @export var _character:BaseCharacter
+@export var _attack_area_collision: CollisionShape2D
 var _suffix: String = ""
 var _is_on_action:= false
 # Called when the node enters the scene tree for the first time.
 func animate(_velocity: Vector2) -> void:
 	verify_direction(_velocity.x)
+	if _velocity.y != 0:
+		_attack_area_collision.position.y = 24
+	else:
+		_attack_area_collision.position.y = 0
 	if _is_on_action:
 		return
 	if not _velocity:
@@ -26,8 +31,10 @@ func animate(_velocity: Vector2) -> void:
 func verify_direction(_direction: float) -> void:
 	if _direction > 0:
 		flip_h = false
+		_attack_area_collision.position.x = 24
 	if _direction < 0:
 		flip_h = true
+		_attack_area_collision.position.x = -24
 		
 func action_animation(_action_name: String) -> void:
 		_is_on_action = true
@@ -49,6 +56,12 @@ func is_with_sword(sword:bool) -> void:
 
 
 func _on_frame_changed() -> void:
+	var _current_animation: StringName = animation
+	if _current_animation.begins_with("air_attack")  or _current_animation.begins_with("attack"):
+		if frame >= 0:
+				_attack_area_collision.disabled = false
+		if frame == 2:
+				_attack_area_collision.disabled = true
 	if animation == "throw_sword":
 		if frame == 2:
 			_character.throw_sword(flip_h)
