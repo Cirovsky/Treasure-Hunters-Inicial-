@@ -304,8 +304,10 @@ _speed = 100.0
 
 [node name="Texture" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_character")]
 sprite_frames = SubResource("SpriteFrames_vvw5b")
-animation = &"throw_sword"
+animation = &"attack_1_with_sword"
 autoplay = "idle"
+frame = 2
+frame_progress = 1.0
 script = ExtResource("19_74mvt")
 _character = NodePath("..")
 

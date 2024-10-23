@@ -91,6 +91,14 @@ func _attack_handler() -> void:
 			_attack_animation_handler("attack_",3)
 			
 func _attack_animation_handler(prefix, index_limit: int, on_air: bool = false) -> void:
+	
+	global.spam_effect(
+			#"res://visual_effects/sword/attack_1/attack_1_effect.tscn"
+				"res://visual_effects/sword/" + prefix + str(_attack_index) +"/" + prefix + str(_attack_index) + "_effect.tscn",
+				Vector2(24,0),
+				global_position,
+				_character_texture.flip_h
+		)
 	_character_texture.action_animation(prefix + str(_attack_index))
 	_attack_index += 1
 	if on_air:
