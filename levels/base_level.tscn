@@ -14,3 +14,5 @@ position = Vector2(-613.328, 656.054)
 [node name="Background" parent="." instance=ExtResource("2_e7wbj")]
 
 [node name="Camera2D" parent="." instance=ExtResource("4_mnlem")]
+
+[node name="Enemies" type="Node2D" parent="."]
