@@ -1,8 +1,9 @@
-[gd_scene load_steps=43 format=3 uid="uid://be5bv4aifb3p3"]
+[gd_scene load_steps=46 format=3 uid="uid://be5bv4aifb3p3"]
 
 [ext_resource type="PackedScene" uid="uid://bsgjb7s6datt0" path="res://entities/components/base_enemy.tscn" id="1_oikcv"]
 [ext_resource type="Texture2D" uid="uid://cwdm6a6172nl6" path="res://entities/pink_star/attack/attack_1.png" id="2_0qpdx"]
 [ext_resource type="Texture2D" uid="uid://bvjv7yviqc666" path="res://entities/pink_star/idle/1.png" id="2_3o4a5"]
+[ext_resource type="Script" path="res://entities/pink_star/pink_star.gd" id="2_hqjvi"]
 [ext_resource type="Texture2D" uid="uid://cks603jp4fbgw" path="res://entities/pink_star/attack/attack_2.png" id="3_siffh"]
 [ext_resource type="Texture2D" uid="uid://cunui0tb7d4lw" path="res://entities/pink_star/idle/2.png" id="3_uodt7"]
 [ext_resource type="Texture2D" uid="uid://f8iaxbjvfq86" path="res://entities/pink_star/attack/attack_3.png" id="4_1es13"]
@@ -56,7 +57,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("5_fmv27")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack",
 "speed": 10.0
 }, {
@@ -214,15 +215,23 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tqvu7"]
 size = Vector2(18, 19)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_xoam3"]
+radius = 18.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hspmh"]
+size = Vector2(79, 36)
+
 [node name="PinkStar" instance=ExtResource("1_oikcv")]
+script = ExtResource("2_hqjvi")
 _enemy_type = 2
 _pink_star_enemy = true
 
 [node name="Texture" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_2w55u")
-animation = &"hit"
+animation = &"attack"
 autoplay = "idle"
 flip_h = true
+_last_attack_frame = 3
 
 [node name="Collision" parent="." index="1"]
 position = Vector2(1, 2.5)
@@ -230,3 +239,15 @@ shape = SubResource("RectangleShape2D_tqvu7")
 
 [node name="FloorDetectionRay" parent="." index="2"]
 position = Vector2(12, 12)
+
+[node name="AttackArea" parent="." index="3"]
+_attack_damage = 5
+
+[node name="Collision" parent="AttackArea" index="0"]
+position = Vector2(0, 2)
+shape = SubResource("CircleShape2D_xoam3")
+disabled = true
+
+[node name="Collision" parent="DetectionArea" index="0"]
+position = Vector2(0.5, 2)
+shape = SubResource("RectangleShape2D_hspmh")

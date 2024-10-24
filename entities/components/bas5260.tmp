@@ -13,11 +13,10 @@ script = ExtResource("1_e3l13")
 _enemy_texture = NodePath("Texture")
 _floor_detection = NodePath("FloorDetectionRay")
 
-[node name="Texture" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_enemy", "_attack_area_collision")]
+[node name="Texture" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_enemy")]
 sprite_frames = SubResource("SpriteFrames_4mi4o")
 script = ExtResource("2_wwaq4")
 _enemy = NodePath("..")
-_attack_area_collision = NodePath("../AttackArea/Collision")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 
@@ -35,7 +34,6 @@ script = ExtResource("3_jxx8k")
 [node name="Collision" type="CollisionShape2D" parent="DetectionArea"]
 
 [connection signal="animation_finished" from="Texture" to="Texture" method="_on_animation_finished"]
-[connection signal="frame_changed" from="Texture" to="Texture" method="_on_frame_changed"]
 [connection signal="body_entered" from="AttackArea" to="AttackArea" method="_on_body_entered"]
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]

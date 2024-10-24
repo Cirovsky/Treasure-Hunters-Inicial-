@@ -6,6 +6,7 @@ const SPEED = 120.0
 const JUMP_VELOCITY = -400.0
 var _on_floor: bool = false
 var _direction: Vector2 = Vector2.ZERO
+var _player_in_range: BaseCharacter = null
 
 enum _enemy_types {
 	STATIC = 0, 
@@ -25,11 +26,9 @@ func _ready() -> void:
 	_udpdate_direction()
 
 func _physics_process(delta: float) -> void:
-	var direction := Input.get_axis("ui_left", "ui_right")
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+	if is_instance_valid(_player_in_range):
+		_attacking()
+		return
 	_vertical_movement(delta)
 	match _enemy_type:
 		_enemy_types.STATIC:
@@ -37,7 +36,7 @@ func _physics_process(delta: float) -> void:
 		_enemy_types.CHASE:
 			print("perseguidor")
 		_enemy_types.WANDER:
-			wandering()
+			_wandering()
 	move_and_slide()
 	_enemy_texture.animate(velocity)
 	
@@ -49,7 +48,7 @@ func _vertical_movement(delta:float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 		
-func wandering()-> void:
+func _wandering()-> void:
 	if _floor_detection.is_colliding():
 		if _floor_detection.get_collider() is TileMapLayer:
 			velocity.x = _direction.x * SPEED
@@ -68,4 +67,12 @@ func _udpdate_direction()-> void:
 	if _direction.x < 0:
 		_floor_detection.position.x = -12
 	
-	
+func _on_detection_area_body_entered(body: Node2D) -> void:
+	if body is BaseCharacter:
+		_player_in_range = body
+func _attacking() -> void:
+	pass
+func _on_detection_area_body_exited(body: Node2D) -> void:
+	if body is BaseCharacter:
+		_player_in_range = null
+		_wandering()

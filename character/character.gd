@@ -7,6 +7,7 @@ var _on_floor: = true
 var _has_sword: = false
 var _attack_index: int = 1
 var _air_attack_count: int = 1
+var _health: int = 15
 @onready var remote_transform:= $Remote as RemoteTransform2D
 @onready var _character_texture: = $Texture as CharacterTexture
 @onready var _attack_combo: = $AttackCombo as Timer
@@ -133,3 +134,10 @@ func follow_camera(camera):
 
 func _on_attack_combo_timeout() -> void:
 	_attack_index = 1
+	
+func update_health(value:int, is_damage:float = true) -> void:
+	if is_damage:
+		_health -= value
+	else:
+		_health += value
+	print(_health)

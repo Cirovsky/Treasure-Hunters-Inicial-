@@ -2,8 +2,13 @@ extends AnimatedSprite2D
 
 class_name  EnemyTexture
 
+@export_category("Variables")
+@export var _last_attack_frame:int
+
 @export_category("Objects")
 @export var _enemy: BaseEnemy
+@export var _attack_area_collision: CollisionShape2D
+
 
 var _on_action: bool = false
 # Called when the node enters the scene tree for the first time.
@@ -28,5 +33,16 @@ func action_animate(action: String) -> void:
 	play(action)
 
 func _on_animation_finished() -> void:
+	if animation == "attack_anticipation":
+		action_animate("attack")
+		return
 	_on_action = false
 	_enemy.set_physics_process(true)
+
+
+func _on_frame_changed() -> void:
+	if animation == "attack":
+		if frame >= 0:
+			_attack_area_collision.disabled = false
+		if frame == _last_attack_frame:
+			_attack_area_collision.disabled = true
