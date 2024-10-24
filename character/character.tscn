@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://bj0wvn5ostyd2"]
+[gd_scene load_steps=59 format=3 uid="uid://bj0wvn5ostyd2"]
 
 [ext_resource type="Texture2D" uid="uid://c5qhrk0rbvm7f" path="res://character/without_sword/idle/1.png" id="1_0jmfj"]
 [ext_resource type="Script" path="res://character/character.gd" id="1_armaa"]
@@ -54,6 +54,7 @@
 [ext_resource type="Texture2D" uid="uid://bcfpxa8ry47xe" path="res://character/with_sword/throw_sword/1.png" id="51_kn3fp"]
 [ext_resource type="Texture2D" uid="uid://dmvum0lyssb06" path="res://character/with_sword/throw_sword/2.png" id="52_x3y66"]
 [ext_resource type="Texture2D" uid="uid://bev0dhx6nack3" path="res://character/with_sword/throw_sword/3.png" id="53_cp48a"]
+[ext_resource type="Script" path="res://character/character_attack_area.gd" id="55_qkq8y"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vvw5b"]
 animations = [{
@@ -298,7 +299,7 @@ animations = [{
 size = Vector2(17, 21)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gqa3b"]
-radius = 16.0
+radius = 15.0
 
 [node name="Character" type="CharacterBody2D"]
 collision_mask = 2
@@ -325,6 +326,9 @@ shape = SubResource("RectangleShape2D_pl4gk")
 one_shot = true
 
 [node name="AttackArea" type="Area2D" parent="."]
+collision_mask = 4
+script = ExtResource("55_qkq8y")
+_attack_damage = 5
 
 [node name="Collision" type="CollisionShape2D" parent="AttackArea"]
 position = Vector2(24, 0)
@@ -334,3 +338,4 @@ disabled = true
 [connection signal="animation_finished" from="Texture" to="Texture" method="_on_animation_finished"]
 [connection signal="frame_changed" from="Texture" to="Texture" method="_on_frame_changed"]
 [connection signal="timeout" from="AttackCombo" to="." method="_on_attack_combo_timeout"]
+[connection signal="body_entered" from="AttackArea" to="AttackArea" method="_on_body_entered"]

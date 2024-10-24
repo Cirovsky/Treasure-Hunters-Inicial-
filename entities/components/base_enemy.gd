@@ -15,7 +15,7 @@ enum _enemy_types {
 	}
 @export_category("Variables")
 @export var _enemy_type: _enemy_types
-
+@export var _health:int = 10
 @export_category("Objects")
 @export var _enemy_texture: EnemyTexture
 @export var _floor_detection: RayCast2D
@@ -76,3 +76,11 @@ func _on_detection_area_body_exited(body: Node2D) -> void:
 	if body is BaseCharacter:
 		_player_in_range = null
 		_wandering()
+func update_health(value:int, is_damage:float = true) -> void:
+	if is_damage:
+		_health -= value
+		_enemy_texture.action_animate("hit")
+	else:
+		_health += value
+	if _health <= 0:
+		_enemy_texture.action_animate("dead_hit")

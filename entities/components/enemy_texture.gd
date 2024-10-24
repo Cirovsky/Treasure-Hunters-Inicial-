@@ -33,6 +33,9 @@ func action_animate(action: String) -> void:
 	play(action)
 
 func _on_animation_finished() -> void:
+	if animation == "dead_hit":
+		_enemy.queue_free()
+		return
 	if animation == "attack_anticipation":
 		action_animate("attack")
 		return

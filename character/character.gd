@@ -7,7 +7,6 @@ var _on_floor: = true
 var _has_sword: = false
 var _attack_index: int = 1
 var _air_attack_count: int = 1
-var _health: int = 15
 @onready var remote_transform:= $Remote as RemoteTransform2D
 @onready var _character_texture: = $Texture as CharacterTexture
 @onready var _attack_combo: = $AttackCombo as Timer
@@ -15,6 +14,7 @@ var _health: int = 15
 @export var _speed = 150.0
 @export var _boost := 2
 @export var _jump_velocity:= -300
+@export var _health: int = 15
 
 func _physics_process(_delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
@@ -140,4 +140,3 @@ func update_health(value:int, is_damage:float = true) -> void:
 		_health -= value
 	else:
 		_health += value
-	print(_health)
