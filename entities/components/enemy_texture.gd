@@ -4,10 +4,12 @@ class_name  EnemyTexture
 
 @export_category("Variables")
 @export var _last_attack_frame:int
-
+@export var _dead_collision: Vector2
+@export var _dead_loop: int = 3
 @export_category("Objects")
 @export var _enemy: BaseEnemy
 @export var _attack_area_collision: CollisionShape2D
+@export var _enemy_collision: CollisionShape2D
 
 
 var _on_action: bool = false
@@ -32,20 +34,25 @@ func action_animate(action: String) -> void:
 	_on_action = true
 	play(action)
 
-func _on_animation_finished() -> void:
-	if animation == "dead_hit":
-		_enemy.queue_free()
-		return
-	if animation == "attack_anticipation":
-		action_animate("attack")
-		return
-	_on_action = false
-	_enemy.set_physics_process(true)
-
-
 func _on_frame_changed() -> void:
 	if animation == "attack":
 		if frame >= 0:
 			_attack_area_collision.disabled = false
 		if frame == _last_attack_frame:
 			_attack_area_collision.disabled = true
+
+func _on_animation_finished() -> void:
+	if animation == "dead_hit":
+		_enemy_collision.position = _dead_collision
+	if animation == "dead_ground":
+		print("dead_loop: ",_dead_loop)
+		if _dead_loop > 0:
+			play("dead_ground")
+			_dead_loop -= 1
+		else:
+			_enemy.queue_free()
+	if animation == "attack_anticipation":
+		action_animate("attack")
+		return
+	_on_action = false
+	_enemy.set_physics_process(true)

@@ -6,23 +6,25 @@
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4mi4o"]
 
-[node name="BaseEnemy" type="CharacterBody2D" node_paths=PackedStringArray("_enemy_texture", "_floor_detection")]
+[node name="BaseEnemy" type="CharacterBody2D" node_paths=PackedStringArray("_enemy_texture", "_floor_detection", "_knockback_timer")]
 collision_layer = 4
-collision_mask = 3
+collision_mask = 2
 script = ExtResource("1_e3l13")
+_knockback_speed = 32.0
 _enemy_texture = NodePath("Texture")
 _floor_detection = NodePath("FloorDetectionRay")
+_knockback_timer = NodePath("KnockBackTimer")
 
-[node name="Texture" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_enemy", "_attack_area_collision")]
+[node name="Texture" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_enemy", "_attack_area_collision", "_enemy_collision")]
 sprite_frames = SubResource("SpriteFrames_4mi4o")
 script = ExtResource("2_wwaq4")
 _enemy = NodePath("..")
 _attack_area_collision = NodePath("../AttackArea/Collision")
+_enemy_collision = NodePath("../Collision")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 
 [node name="FloorDetectionRay" type="RayCast2D" parent="."]
-target_position = Vector2(0, 16)
 collision_mask = 2
 
 [node name="AttackArea" type="Area2D" parent="."]
@@ -34,8 +36,13 @@ script = ExtResource("3_jxx8k")
 
 [node name="Collision" type="CollisionShape2D" parent="DetectionArea"]
 
+[node name="KnockBackTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
 [connection signal="animation_finished" from="Texture" to="Texture" method="_on_animation_finished"]
 [connection signal="frame_changed" from="Texture" to="Texture" method="_on_frame_changed"]
 [connection signal="body_entered" from="AttackArea" to="AttackArea" method="_on_body_entered"]
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="timeout" from="KnockBackTimer" to="." method="_on_knock_back_timer_timeout"]

@@ -16,5 +16,5 @@ func _on_body_entered(body: Node2D) -> void:
 	print(body is BaseCharacter)
 	if body is BaseEnemy:
 		print("causar dano ao inimigo")
-		body.update_health(_attack_damage)
+		body.update_health(_attack_damage, get_parent())
 		print(body._health)

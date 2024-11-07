@@ -308,10 +308,8 @@ _speed = 100.0
 
 [node name="Texture" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_character", "_attack_area_collision")]
 sprite_frames = SubResource("SpriteFrames_vvw5b")
-animation = &"attack_1_with_sword"
+animation = &"jump"
 autoplay = "idle"
-frame = 2
-frame_progress = 1.0
 script = ExtResource("19_74mvt")
 _character = NodePath("..")
 _attack_area_collision = NodePath("../AttackArea/Collision")

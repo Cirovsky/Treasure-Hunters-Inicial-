@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=4 uid="uid://cqmmt4jhmprp0"]
+
+[ext_resource type="PackedScene" uid="uid://bx8qw5ldqh1q" path="res://levels/base_level.tscn" id="1_2cvo3"]
+[ext_resource type="PackedScene" uid="uid://bj0wvn5ostyd2" path="res://character/character.tscn" id="2_jxuir"]
+[ext_resource type="PackedScene" uid="uid://be5bv4aifb3p3" path="res://entities/pink_star/pink_star.tscn" id="3_r78c8"]
+[ext_resource type="PackedScene" uid="uid://lybid2xy2mmq" path="res://collectables/sword/collectable_sword.tscn" id="4_qxfmp"]
+
+[node name="BaseLevel" instance=ExtResource("1_2cvo3")]
+
+[node name="Terrain" parent="." index="0"]
+tile_map_data = PackedByteArray("AAAkAPX/AAACAAIAAAAkAPT/AAACAAEAAAAkAPP/AAACAAEAAAAkAPL/AAACAAAAAAAjAPX/AAABAAIAAAAjAPT/AAABAAEAAAAjAPP/AAABAAEAAAAjAPL/AAABAAAAAAAiAPX/AAABAAIAAAAiAPT/AAABAAEAAAAiAPP/AAABAAEAAAAiAPL/AAABAAAAAAAhAPX/AAABAAIAAAAhAPT/AAABAAEAAAAhAPP/AAABAAEAAAAhAPL/AAABAAAAAAAgAPX/AAABAAIAAAAgAPT/AAABAAEAAAAgAPP/AAABAAEAAAAgAPL/AAABAAAAAAAfAPX/AAABAAIAAAAfAPT/AAABAAEAAAAfAPP/AAABAAEAAAAfAPL/AAABAAAAAAAeAPX/AAABAAIAAAAeAPT/AAABAAEAAAAeAPP/AAABAAEAAAAeAPL/AAABAAAAAAAdAPX/AAABAAIAAAAdAPT/AAABAAEAAAAdAPP/AAABAAEAAAAdAPL/AAABAAAAAAAcAPX/AAABAAIAAAAcAPT/AAABAAEAAAAcAPP/AAABAAEAAAAcAPL/AAABAAAAAAAbAPX/AAABAAIAAAAbAPT/AAABAAEAAAAbAPP/AAABAAEAAAAbAPL/AAABAAAAAAAaAPX/AAABAAIAAAAaAPT/AAABAAEAAAAaAPP/AAABAAEAAAAaAPL/AAABAAAAAAAZAPX/AAABAAIAAAAZAPT/AAABAAEAAAAZAPP/AAABAAEAAAAZAPL/AAABAAAAAAAYAPX/AAABAAIAAAAYAPT/AAABAAEAAAAYAPP/AAABAAEAAAAYAPL/AAABAAAAAAAXAPX/AAABAAIAAAAXAPT/AAABAAEAAAAXAPP/AAABAAEAAAAXAPL/AAABAAAAAAAWAPX/AAABAAIAAAAWAPT/AAABAAEAAAAWAPP/AAABAAEAAAAWAPL/AAABAAAAAAAVAPX/AAAAAAIAAAAVAPT/AAAAAAEAAAAVAPP/AAAAAAEAAAAVAPL/AAAAAAAAAAA=")
+
+[node name="Character" parent="." index="1" instance=ExtResource("2_jxuir")]
+position = Vector2(119, 198)
+
+[node name="Enemies" parent="." index="4"]
+position = Vector2(301, 199)
+
+[node name="PinkStar2" parent="Enemies" index="0" instance=ExtResource("3_r78c8")]
+position = Vector2(166, -5)
+collision_mask = 3
+
+[node name="PinkStar" parent="Enemies" index="1" instance=ExtResource("3_r78c8")]
+position = Vector2(-42, -4)
+collision_mask = 3
+
+[node name="CollectableSword" parent="." index="5" instance=ExtResource("4_qxfmp")]
+position = Vector2(163, 196)

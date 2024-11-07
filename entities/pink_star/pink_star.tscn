@@ -216,22 +216,25 @@ animations = [{
 size = Vector2(18, 19)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xoam3"]
-radius = 18.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hspmh"]
-size = Vector2(79, 36)
+[sub_resource type="CircleShape2D" id="CircleShape2D_n4ox7"]
 
 [node name="PinkStar" instance=ExtResource("1_oikcv")]
 script = ExtResource("2_hqjvi")
 _enemy_type = 2
+_health = 50
+_knockback_speed = 128.0
+_hit_knockback_timer = 0.8
 _pink_star_enemy = true
 
 [node name="Texture" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_2w55u")
-animation = &"attack"
+animation = &"dead_ground"
 autoplay = "idle"
 flip_h = true
 _last_attack_frame = 3
+_dead_collision = Vector2(1, 0)
+_dead_loop = 2
 
 [node name="Collision" parent="." index="1"]
 position = Vector2(1, 2.5)
@@ -241,6 +244,7 @@ shape = SubResource("RectangleShape2D_tqvu7")
 position = Vector2(12, 12)
 
 [node name="AttackArea" parent="." index="3"]
+collision_layer = 0
 _attack_damage = 5
 
 [node name="Collision" parent="AttackArea" index="0"]
@@ -248,6 +252,9 @@ position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_xoam3")
 disabled = true
 
+[node name="DetectionArea" parent="." index="4"]
+collision_layer = 0
+
 [node name="Collision" parent="DetectionArea" index="0"]
 position = Vector2(0.5, 2)
-shape = SubResource("RectangleShape2D_hspmh")
+shape = SubResource("CircleShape2D_n4ox7")

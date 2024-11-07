@@ -1,4 +1,5 @@
 extends BaseEnemy
+
 class_name PinkStar
 
 func _attacking() -> void:
