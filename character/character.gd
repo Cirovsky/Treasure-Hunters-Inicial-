@@ -69,6 +69,10 @@ func _vertical_moviment(_delta:float) -> void:
 			_attack_index = 1
 		_on_floor = false
 	velocity += get_gravity() * _delta
+	#if global_position.y > get_viewport_rect().size.length():
+		#queue_free()
+		#print("game over")
+		
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and _extra_jump >= 0 and is_on_floor() and not _on_knockback:
 		global.spam_effect(

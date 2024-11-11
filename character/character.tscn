@@ -390,7 +390,7 @@ collision_mask = 6
 script = ExtResource("1_armaa")
 _speed = 128.0
 _knockback_speed = 128.0
-_health = 10
+_health = 100
 _knockback_timer = NodePath("KnockbackTimer")
 
 [node name="Texture" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_character", "_attack_area_collision")]

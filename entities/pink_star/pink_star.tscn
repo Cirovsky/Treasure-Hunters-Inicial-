@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://be5bv4aifb3p3"]
+[gd_scene load_steps=46 format=3 uid="uid://be5bv4aifb3p3"]
 
 [ext_resource type="PackedScene" uid="uid://bsgjb7s6datt0" path="res://entities/components/base_enemy.tscn" id="1_oikcv"]
 [ext_resource type="Texture2D" uid="uid://cwdm6a6172nl6" path="res://entities/pink_star/attack/attack_1.png" id="2_0qpdx"]
@@ -41,7 +41,6 @@
 [ext_resource type="Texture2D" uid="uid://b32ukxadkh1qm" path="res://entities/pink_star/run/4.png" id="38_n5lb4"]
 [ext_resource type="Texture2D" uid="uid://brub6refcs6iu" path="res://entities/pink_star/run/5.png" id="39_rwbgh"]
 [ext_resource type="Texture2D" uid="uid://cjq55p36pryfs" path="res://entities/pink_star/run/6.png" id="40_1kd5b"]
-[ext_resource type="PackedScene" uid="uid://tadhc2xrgs23" path="res://visual_effects/dust_particles/run/run_effect.tscn" id="42_btro4"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_2w55u"]
 animations = [{
@@ -231,12 +230,14 @@ _pink_star_enemy = true
 
 [node name="Texture" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_2w55u")
-animation = &"idle"
+animation = &"attack"
 autoplay = "idle"
 flip_h = true
-_last_attack_frame = 3
 _dead_collision = Vector2(1, 0)
 _dead_loop = 2
+_last_attack_frame = 3
+_initial_run_frame = 2
+_last_run_frame = 5
 
 [node name="Collision" parent="." index="1"]
 position = Vector2(1, 2.5)
@@ -261,8 +262,3 @@ collision_layer = 0
 [node name="Collision" parent="DetectionArea" index="0"]
 position = Vector2(0.5, 2)
 shape = SubResource("CircleShape2D_n4ox7")
-
-[node name="RunEffect" parent="." index="6" instance=ExtResource("42_btro4")]
-position = Vector2(-5, 4)
-frame = 4
-frame_progress = 1.0
