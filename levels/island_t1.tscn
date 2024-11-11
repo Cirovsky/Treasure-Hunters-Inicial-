@@ -19,9 +19,7 @@ position = Vector2(17, 260)
 
 [node name="PinkStar" parent="Enemies" index="0" instance=ExtResource("4_vxmvr")]
 position = Vector2(109, 224)
-collision_mask = 3
 _knockback_speed = 256.0
 
 [node name="PinkStar2" parent="Enemies" index="1" instance=ExtResource("4_vxmvr")]
 position = Vector2(354, 218)
-collision_mask = 3

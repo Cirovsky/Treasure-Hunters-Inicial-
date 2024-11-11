@@ -8,7 +8,7 @@
 
 [node name="BaseEnemy" type="CharacterBody2D" node_paths=PackedStringArray("_enemy_texture", "_floor_detection", "_knockback_timer")]
 collision_layer = 4
-collision_mask = 2
+collision_mask = 3
 script = ExtResource("1_e3l13")
 _knockback_speed = 32.0
 _enemy_texture = NodePath("Texture")

@@ -42,7 +42,10 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		return
 	if is_instance_valid(_player_in_range) and is_on_floor():
-		_attacking()
+		if _player_in_range._is_alive:
+			_attacking()
+			return
+	if _on_knockback:
 		return
 	match _enemy_type:
 		_enemy_types.STATIC:
@@ -58,6 +61,9 @@ func _vertical_movement(delta:float) -> void:
 	if is_on_floor():
 		if _is_alive == false:
 			velocity.x = 0
+			collision_layer = 8
+			collision_mask = 2
+			print(collision_layer)
 			_enemy_texture.action_animate("dead_ground")
 		if _on_floor == false:
 			_enemy_texture.action_animate("land")
@@ -102,17 +108,20 @@ func update_health(value:int, entity: BaseCharacter, is_damage:float = true) -> 
 	else:
 		_health += value
 
-func _knockback(entity: BaseCharacter)-> void:
-	var _x:int = -1 if global_position.x < entity.global_position.x else 1
-	#var _x:float = entity.global_position.x
-	velocity.x = _x * _knockback_speed
+func _knockback(entity: CharacterBody2D)-> void:
+	var position:Vector2 = entity.global_position.direction_to(global_position)
+	var _x:int = -1 if position.x < 0 else 1
+	velocity.x = position.x * _knockback_speed
 	velocity.y = -1 * _knockback_speed
 	_on_knockback = true
 	
 	
 func _on_detection_area_body_entered(body: Node2D) -> void:
 	if body is BaseCharacter:
-		_player_in_range = body
+		if body._is_alive:
+			_player_in_range = body
+		else:
+			_player_in_range = null
 func _attacking() -> void:
 	pass
 func _on_detection_area_body_exited(body: Node2D) -> void:

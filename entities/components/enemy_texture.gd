@@ -36,6 +36,7 @@ func action_animate(action: String) -> void:
 
 func _on_frame_changed() -> void:
 	if animation == "attack":
+		_last_attack_frame = sprite_frames.get_frame_count(animation)
 		if frame >= 0:
 			_attack_area_collision.disabled = false
 		if frame == _last_attack_frame:

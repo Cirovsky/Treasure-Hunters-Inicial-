@@ -7,20 +7,35 @@ var _on_floor: = true
 var _has_sword: = false
 var _attack_index: int = 1
 var _air_attack_count: int = 1
+var _on_knockback:bool = false
+var _is_alive:bool = true
 @onready var remote_transform:= $Remote as RemoteTransform2D
 @onready var _character_texture: = $Texture as CharacterTexture
 @onready var _attack_combo: = $AttackCombo as Timer
 @export_category("Variables")
-@export var _speed = 150.0
-@export var _boost := 2
-@export var _jump_velocity:= -300
+@export var _speed:float = 150.0
+@export var _knockback_speed: float = 64.0
+@export var _boost: int= 2
+@export var _jump_velocity:float= -300
 @export var _health: int = 15
+@export var _hit_knockback_timer:float = 0.4
+@export var _dead_knockback_timer:float = 0.4
+@export_category("Objects")
+@export var _knockback_timer: Timer
+
+func _process(delta: float) -> void:
+	if _on_knockback:
+		move_and_slide()
 
 func _physics_process(_delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	
 	_vertical_moviment(_delta)
+	if _is_alive == false or _on_knockback:
+		move_and_slide()
+		return
+	if _on_knockback:
+		return
 	_horizontal_moviment()
 	_attack_handler()
 	move_and_slide()
@@ -28,6 +43,13 @@ func _physics_process(_delta: float) -> void:
 
 func _vertical_moviment(_delta:float) -> void:
 	if is_on_floor():
+		if _is_alive == false:
+			velocity.x = 0
+			collision_layer = 8
+			collision_mask = 2
+			print(collision_mask)
+			_character_texture.action_animation("dead_ground")
+			return
 		if _on_floor == false:
 			#configurar efeito da queda
 			_air_attack_count = 2
@@ -46,9 +68,9 @@ func _vertical_moviment(_delta:float) -> void:
 		if _on_floor:
 			_attack_index = 1
 		_on_floor = false
-		velocity += get_gravity() * _delta
+	velocity += get_gravity() * _delta
 	# Handle jump.
-	if Input.is_action_just_pressed("jump") and _extra_jump >= 0 and is_on_floor():
+	if Input.is_action_just_pressed("jump") and _extra_jump >= 0 and is_on_floor() and not _on_knockback:
 		global.spam_effect(
 			"res://visual_effects/dust_particles/jump/jump_effect.tscn",
 			Vector2(0, 2),
@@ -135,8 +157,29 @@ func follow_camera(camera):
 func _on_attack_combo_timeout() -> void:
 	_attack_index = 1
 	
-func update_health(value:int, is_damage:float = true) -> void:
+func update_health(value:int, entity:BaseEnemy, is_damage:float = true) -> void:
+	if _is_alive == false:
+		return
 	if is_damage:
 		_health -= value
+		_character_texture.action_animation("hit")
+		_knockback(entity)
+		if _health <= 0:
+			update_sword_state(false)
+			_character_texture.play("dead_hit")
+			_is_alive = false
+			_knockback_timer.start(_dead_knockback_timer)
+		else:
+			_knockback_timer.start(_hit_knockback_timer)
 	else:
 		_health += value
+		
+func _knockback(entity: CharacterBody2D)-> void:
+	var position:Vector2 = entity.global_position.direction_to(global_position)
+	var _x:int = -1 if position.x < 0 else 1
+	velocity.x = position.x * _knockback_speed
+	velocity.y = -1 * _knockback_speed
+	_on_knockback = true
+
+func _on_knockback_timer_timeout() -> void:
+	_on_knockback = false
